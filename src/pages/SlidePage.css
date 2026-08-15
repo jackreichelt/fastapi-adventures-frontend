@@ -1,0 +1,10 @@
+.slide {
+    height: 100vh;
+
+    display: grid;
+    grid-template-rows: 6fr 1fr;
+    gap: 4rem;
+    padding: 0 2rem;
+}
+
+.bottomContent {}

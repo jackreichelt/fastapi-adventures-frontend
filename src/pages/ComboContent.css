@@ -1,0 +1,29 @@
+#comboDiv {
+    height: 100%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+
+    #splitContentPane {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .title {
+        font-size: 3.5rem;
+    }
+
+    .slideText {
+        height: fit-content;
+        font-size: 2rem;
+
+        li {
+            padding-bottom: 2rem;
+        }
+    }
+
+    .slideImage {
+        height: max-content;
+    }
+}
