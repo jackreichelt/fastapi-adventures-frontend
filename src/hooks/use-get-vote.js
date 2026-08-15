@@ -20,5 +20,5 @@ export default function useGetVote(audienceId, slideId, sessionId) {
             })
     }, [audienceId, sessionId, slideId])
 
-    return { vote, isLoading, error }
+    return { vote, isLoading, error, directSetVote: setVote }
 }

@@ -18,7 +18,7 @@ function VotingPage() {
     const sessionId = window.localStorage.getItem("sessionId", null)
     const { slideId } = useParams()
     const { slide, isLoading: isSlideLoading, error: slideError, pollOptions } = useSlide(slideId)
-    const { vote, isLoading: isVoteLoading, error: voteError } = useGetVote(audienceId, slideId, sessionId)
+    const { vote, isLoading: isVoteLoading, error: voteError, directSetVote } = useGetVote(audienceId, slideId, sessionId)
 
     const socketUrl = `${import.meta.env.VITE_API_URL}/ws/v1/audience`
     const { lastMessage, readyState } = useWebSocket(socketUrl)
@@ -76,7 +76,7 @@ function VotingPage() {
                     })}
                 </ul>
             </div> */}
-            <VotingOptions options={pollOptions} slideId={slideId} />
+            <VotingOptions options={pollOptions} slideId={slideId} selectedVote={vote.option_id} directSetVote={directSetVote} />
         </div>
     )
 }
