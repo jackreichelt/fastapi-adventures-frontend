@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import "./VotingOption.css"
 
 import postSendVote from "../api/post-send-vote"
@@ -7,7 +9,7 @@ function VotingOption(props) {
     const sessionId = window.localStorage.getItem("sessionId", null)
     const option = props.option
     const slideId = props.slideId
-    const selected = props.selected
+    const [selected, setSelected] = useState(props.selected)
     const directSetVote = props.directSetVote
 
     const handleVote = (event) => {
@@ -16,6 +18,7 @@ function VotingOption(props) {
             postSendVote(audienceId, option.destination, slideId, sessionId)
                 .then((response) => {
                     directSetVote(response)
+                    setSelected(true)
                     console.log(response)
                 })
         }
