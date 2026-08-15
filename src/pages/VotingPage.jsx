@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import "./theme.css"
@@ -12,6 +12,8 @@ import useSlide from "../hooks/use-get-slide"
 import useGetVote from "../hooks/use-get-vote"
 
 function VotingPage() {
+    const navigate = useNavigate()
+
     const audienceId = window.localStorage.getItem("audienceId", null)
     const sessionId = window.localStorage.getItem("sessionId", null)
     const { slideId } = useParams()
@@ -26,6 +28,10 @@ function VotingPage() {
         if (lastMessage !== null) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setMessages((prevMessages) => prevMessages.concat(lastMessage.data))
+            let chunks = lastMessage.split(': ')
+            if (chunks[0] === "Slide changed") {
+                navigate(`/slide/${chunks[1]}`)
+            }
         }
     }, [lastMessage])
 
