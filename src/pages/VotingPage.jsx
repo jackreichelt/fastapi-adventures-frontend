@@ -31,7 +31,7 @@ function VotingPage() {
             console.log(lastMessage)
             let chunks = lastMessage.data.split(': ')
             if (chunks[0] === "Slide changed") {
-                navigate(`/slide/${chunks[1]}`)
+                navigate(`/vote/${chunks[1]}`)
             }
         }
     }, [lastMessage])
