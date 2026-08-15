@@ -65,7 +65,7 @@ function VotingPage() {
             <ConnectionIndicator status={connectionStatus} />
             <h1 id="voting-title">Voting:</h1>
             <h2 id="slide-title">{slide.title}</h2>
-            <div>
+            {/* <div>
                 <ul>
                     {messages && messages.map((message, key) => {
                         return (
@@ -75,7 +75,7 @@ function VotingPage() {
                         )
                     })}
                 </ul>
-            </div>
+            </div> */}
             <VotingOptions options={pollOptions} slideId={slideId} />
         </div>
     )
