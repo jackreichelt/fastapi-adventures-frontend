@@ -22,7 +22,7 @@ function VotingPage() {
 
     const socketUrl = `${import.meta.env.VITE_API_URL}/ws/v1/audience`
     const { lastMessage, readyState } = useWebSocket(socketUrl)
-    const [messages, setMessages] = useState([])
+    const [_, setMessages] = useState([])
 
     useEffect(() => {
         if (lastMessage !== null) {

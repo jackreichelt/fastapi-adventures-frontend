@@ -15,6 +15,7 @@
     &.selected {
         border-color: 1px;
         border-color: gold;
+        background-color: gold;
     }
 
     &:active {
