@@ -76,7 +76,7 @@ function VotingPage() {
                     })}
                 </ul>
             </div> */}
-            <VotingOptions options={pollOptions} slideId={slideId} selectedVote={vote.option_id} directSetVote={directSetVote} />
+            <VotingOptions options={pollOptions} slideId={slideId} selectedVote={vote?.option_id} directSetVote={directSetVote} />
         </div>
     )
 }
