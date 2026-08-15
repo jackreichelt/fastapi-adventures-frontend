@@ -6,4 +6,8 @@ export default defineConfig({
   plugins: [react()],
   base: "/fastapi-adventures-frontend/",
   legacy: { inconsistentCjsInterop: true },
+  build: {
+    minify: false,
+    cssMinify: false
+  }
 })
