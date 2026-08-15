@@ -11,7 +11,13 @@ function VotingOptions(props) {
     return (
         <div id="voting-options">
             {options.map((option, key) => {
-                return <VotingOption key={key} option={option} slideId={slideId} selected={option === selectedOption} directSetVote={directSetVote} />
+                return <VotingOption
+                    key={key}
+                    option={option}
+                    slideId={slideId}
+                    selected={option === selectedOption}
+                    directSetVote={directSetVote}
+                />
             })}
         </div>
     )

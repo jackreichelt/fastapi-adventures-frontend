@@ -12,7 +12,7 @@
 
     box-shadow: 5px 5px 5px var(--github-dark-grey);
 
-    &.selected {
+    &.true {
         border-color: 1px;
         border-color: gold;
         background-color: gold;
