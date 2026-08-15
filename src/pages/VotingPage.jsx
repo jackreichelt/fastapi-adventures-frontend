@@ -28,7 +28,8 @@ function VotingPage() {
         if (lastMessage !== null) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setMessages((prevMessages) => prevMessages.concat(lastMessage.data))
-            let chunks = lastMessage.split(': ')
+            console.log(lastMessage)
+            let chunks = lastMessage.data.split(': ')
             if (chunks[0] === "Slide changed") {
                 navigate(`/slide/${chunks[1]}`)
             }
