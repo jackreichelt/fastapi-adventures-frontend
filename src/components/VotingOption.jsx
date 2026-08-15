@@ -23,7 +23,7 @@ function VotingOption(props) {
     }
 
     return (
-        <button className={'voting-option' + selected} type="button" onClick={handleVote} >
+        <button className={'voting-option ' + selected} type="button" onClick={handleVote} >
             {option.name}
         </button >
     )
