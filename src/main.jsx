@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     path: "/vote/:slideId",
     element: <VotingPage />
   }
-])
+], { basename: '/fastapi-adventures-frontend' })
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
