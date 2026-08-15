@@ -12,6 +12,11 @@
 
     box-shadow: 5px 5px 5px var(--github-dark-grey);
 
+    &.selected {
+        border-color: 1px;
+        border-color: gold;
+    }
+
     &:active {
         box-shadow: 2px 2px 5px var(--github-dark-grey);
         transform: translateY(2px);

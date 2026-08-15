@@ -7,6 +7,7 @@ function VotingOption(props) {
     const sessionId = window.localStorage.getItem("sessionId", null)
     const option = props.option
     const slideId = props.slideId
+    const selected = props.selected
 
     const handleVote = (event) => {
         event.preventDefault()
@@ -20,7 +21,7 @@ function VotingOption(props) {
     }
 
     return (
-        <button className="voting-option" type="button" onClick={handleVote}>
+        <button className={`voting-option ${selected && 'selected'}`} type="button" onClick={handleVote}>
             {option.name}
         </button>
     )
