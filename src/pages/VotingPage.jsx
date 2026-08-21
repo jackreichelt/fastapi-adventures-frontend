@@ -28,17 +28,12 @@ function VotingPage() {
         if (lastMessage !== null) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setMessages((prevMessages) => prevMessages.concat(lastMessage.data))
-            console.log(lastMessage)
             let chunks = lastMessage.data.split(': ')
             if (chunks[0] === "Slide changed") {
                 navigate(`/vote/${chunks[1]}`)
             }
         }
-    }, [lastMessage])
-
-    useEffect(() => {
-        console.log('past vote', vote)
-    }, [vote])
+    }, [lastMessage, navigate])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'connecting',
@@ -76,7 +71,7 @@ function VotingPage() {
                     })}
                 </ul>
             </div> */}
-            <VotingOptions options={pollOptions} slideId={slideId} selectedVote={vote?.option_id} directSetVote={directSetVote} />
+            <VotingOptions options={pollOptions} slideId={slideId} selectedOption={vote?.option_id} directSetVote={directSetVote} />
         </div>
     )
 }

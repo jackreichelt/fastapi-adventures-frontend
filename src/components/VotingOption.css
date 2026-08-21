@@ -2,20 +2,20 @@
 
 .voting-option {
     padding: 1rem;
-    border: 0;
+
+    border: 4px;
+    border-style: solid;
+    border-color: transparent;
     border-radius: 1rem;
 
+    font-size: 2rem;
     background-color: var(--fastapi-teal);
     color: white;
-
-    font-size: 2rem;
-
-    box-shadow: 5px 5px 5px var(--github-dark-grey);
+    box-shadow: 5px 5px 5px light-dark(var(--github-dark-grey), var(--near-black));
 
     &.true {
-        border-color: 1px;
-        border-color: gold;
-        background-color: gold;
+        border-color: var(--sqlmodel-purple);
+        /* box-shadow: 5px 5px 5px var(--sqlmodel-purple); */
     }
 
     &:active {

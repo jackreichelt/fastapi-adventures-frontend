@@ -19,7 +19,7 @@ function JoinSessionForm() {
         if (sessionId) {
             getJoinSession(sessionId, audienceId)
                 .then((response) => {
-                    console.log(response)
+                    console.log('Joining session', response)
                     window.localStorage.setItem("sessionId", response.id)
                     window.localStorage.setItem("audienceId", response.audience_id)
                     navigate(`/vote/${response.current_slide_id}`)

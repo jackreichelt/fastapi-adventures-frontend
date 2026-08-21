@@ -15,7 +15,7 @@ function VotingOptions(props) {
                     key={key}
                     option={option}
                     slideId={slideId}
-                    selected={option === selectedOption}
+                    selected={option.destination === selectedOption}
                     directSetVote={directSetVote}
                 />
             })}

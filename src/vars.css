@@ -7,6 +7,7 @@
     --python-yellow: #ffd343;
     --dark-yellow: color-mix(in oklab, var(--python-yellow), black 20%);
     --fastapi-teal: #009485;
+    --sqlmodel-purple: #7e56c2;
     --dark-text: #444444;
     --faint-shadow: #44444433;
     --light-text: #f9f9f9;
@@ -16,8 +17,7 @@
     --dark-card: #494c51;
     --github-light-grey: #909090;
     --github-dark-grey: #303030;
-
-    --closed-connection-red: #ff0000;
+    --near-black: #080808;
 }
 
 .theme-light {

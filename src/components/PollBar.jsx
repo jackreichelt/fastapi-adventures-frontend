@@ -8,9 +8,11 @@ function PollBar(props) {
     const option = props.option
     const votes = props.votes
     const totalVotes = props.totalVotes
+    const changeSlide = props.changeSlide
     const votesFraction = votes / totalVotes * 100
 
     const goToSlide = () => {
+        changeSlide(option.destination)
         navigate(`/slide/${option.destination}`)
     }
 
