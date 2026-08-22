@@ -1,3 +1,4 @@
+import { WebPubSubClient } from "@azure/web-pubsub-client"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import useWebSocket, { ReadyState } from 'react-use-websocket'
@@ -23,6 +24,37 @@ function VotingPage() {
     const socketUrl = `${import.meta.env.VITE_API_URL}/ws/v1/audience`
     const { lastMessage, readyState } = useWebSocket(socketUrl)
     const [_, setMessages] = useState([])
+
+    const [__, setClient] = useState()
+
+    useEffect(() => {
+        const client = new WebPubSubClient({
+            getClientAccessUrl: async () => {
+                let value = await (await fetch(`${import.meta.env.VITE_API_URL}/api/v1/connections/negotiate?audience_id=${audienceId}`)).json()
+                return value.url
+            },
+        }, {
+            autoReconnect: false,
+        })
+
+        client.on("group-message", m => {
+            console.log("Message received:", m)
+        })
+
+        client.start().then(() => {
+            setClient(client)
+            // client.sendToGroup("presenter", "0", "text").catch(e => {
+            //     console.log("Error sending to group", e, e.errorDetail)
+            // })
+            client.sendEvent("vote", `{ "audience_id": "${audienceId}", "option": "${0}" }`, "text").then((e) => {
+                console.log("sent event", e)
+            }).catch(e => {
+                console.log("Error sending message", e)
+            })
+        }).catch(e => {
+            console.log('Error starting pubsub client', e)
+        })
+    }, [])
 
     useEffect(() => {
         if (lastMessage !== null) {
