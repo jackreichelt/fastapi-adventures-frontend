@@ -46,7 +46,7 @@ function VotingPage() {
             // client.sendToGroup("presenter", "0", "text").catch(e => {
             //     console.log("Error sending to group", e, e.errorDetail)
             // })
-            client.sendEvent("vote", `{ "audience_id": "${audienceId}", "option": "${0}" }`, "text").then((e) => {
+            client.sendEvent("test", `{ "audience_id": "${audienceId}", "option": "${0}" }`, "text").then((e) => {
                 console.log("sent event", e)
             }).catch(e => {
                 console.log("Error sending message", e)
