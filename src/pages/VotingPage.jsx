@@ -25,7 +25,7 @@ function VotingPage() {
     const { lastMessage, readyState } = useWebSocket(socketUrl)
     const [_, setMessages] = useState([])
 
-    const [__, setClient] = useState()
+    const [client, setClient] = useState()
 
     useEffect(() => {
         const client = new WebPubSubClient({
@@ -46,11 +46,11 @@ function VotingPage() {
             // client.sendToGroup("presenter", "0", "text").catch(e => {
             //     console.log("Error sending to group", e, e.errorDetail)
             // })
-            client.sendEvent("test", `{ "audience_id": "${audienceId}", "option": "${0}" }`, "text").then((e) => {
-                console.log("sent event", e)
-            }).catch(e => {
-                console.log("Error sending message", e)
-            })
+            // client.sendEvent("test", `{ "audience_id": "${audienceId}", "option": "${0}" }`, "text").then((e) => {
+            //     console.log("sent event", e)
+            // }).catch(e => {
+            //     console.log("Error sending message", e)
+            // })
         }).catch(e => {
             console.log('Error starting pubsub client', e)
         })
@@ -103,7 +103,19 @@ function VotingPage() {
                     })}
                 </ul>
             </div> */}
-            <VotingOptions options={pollOptions} slideId={slideId} selectedOption={vote?.option_id} directSetVote={directSetVote} />
+            <button>test</button>
+            <VotingOptions
+                options={pollOptions}
+                slideId={slideId}
+                selectedOption={vote?.option_id}
+                directSetVote={directSetVote}
+                voteFunction={(optionId) => {
+                    client.sendEvent("test", `{ "audience_id": "${audienceId}", "option_id": "${optionId}" }`, "text").then((e) => {
+                        console.log("sent event", e)
+                    }).catch(e => {
+                        console.log("Error sending message", e)
+                    })
+                }} />
         </div>
     )
 }

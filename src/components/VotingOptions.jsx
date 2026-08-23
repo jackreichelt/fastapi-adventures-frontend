@@ -7,6 +7,7 @@ function VotingOptions(props) {
     const slideId = props.slideId
     const selectedOption = props.selectedOption
     const directSetVote = props.directSetVote
+    const voteFunction = props.voteFunction
 
     return (
         <div id="voting-options">
@@ -17,6 +18,7 @@ function VotingOptions(props) {
                     slideId={slideId}
                     selected={option.destination === selectedOption}
                     directSetVote={directSetVote}
+                    onClick={voteFunction}
                 />
             })}
         </div>

@@ -9,11 +9,13 @@ function VotingOption(props) {
     const slideId = props.slideId
     const selected = props.selected
     const directSetVote = props.directSetVote
+    const voteFunction = props.voteFunction
 
     const handleVote = (event) => {
         event.preventDefault()
         if (audienceId && sessionId) {
             directSetVote({ option_id: option.destination })
+            voteFunction()
             postSendVote(audienceId, option.destination, slideId, sessionId)
             // .then((response) => {
             //     directSetVote(response)
