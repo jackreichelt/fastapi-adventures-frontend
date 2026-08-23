@@ -45,6 +45,7 @@ function VotingPage() {
         }).catch(e => {
             console.log('Error starting pubsub client', e)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const connectionStatus = {
