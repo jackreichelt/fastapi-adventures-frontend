@@ -103,14 +103,13 @@ function VotingPage() {
                     })}
                 </ul>
             </div> */}
-            <button>test</button>
             <VotingOptions
                 options={pollOptions}
                 slideId={slideId}
                 selectedOption={vote?.option_id}
                 directSetVote={directSetVote}
                 voteFunction={(optionId) => {
-                    client.sendEvent("test", `{ "audience_id": "${audienceId}", "option_id": "${optionId}" }`, "text").then((e) => {
+                    client.sendEvent("vote", `{ "audience_id": "${audienceId}", "option_id": "${optionId}", "slide_id": "${slideId}", "session_id": "${sessionId}" }`, "text").then((e) => {
                         console.log("sent event", e)
                     }).catch(e => {
                         console.log("Error sending message", e)

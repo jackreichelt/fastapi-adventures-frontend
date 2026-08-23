@@ -18,7 +18,7 @@ function VotingOptions(props) {
                     slideId={slideId}
                     selected={option.destination === selectedOption}
                     directSetVote={directSetVote}
-                    onClick={voteFunction}
+                    voteFunction={voteFunction}
                 />
             })}
         </div>
