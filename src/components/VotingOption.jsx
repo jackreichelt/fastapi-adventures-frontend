@@ -1,25 +1,17 @@
 import "./VotingOption.css"
 
-import postSendVote from "../api/post-send-vote"
 
 function VotingOption(props) {
-    const audienceId = window.localStorage.getItem("audienceId", null)
-    const sessionId = window.localStorage.getItem("sessionId", null)
     const option = props.option
-    const slideId = props.slideId
     const selected = props.selected
     const directSetVote = props.directSetVote
     const voteFunction = props.voteFunction
 
     const handleVote = (event) => {
         event.preventDefault()
-        if (voteFunction && audienceId && sessionId) {
+        if (voteFunction) {
             directSetVote({ option_id: option.destination })
             voteFunction(option.destination)
-            postSendVote(audienceId, option.destination, slideId, sessionId)
-            // .then((response) => {
-            //     directSetVote(response)
-            // })
         }
     }
 

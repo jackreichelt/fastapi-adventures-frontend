@@ -4,7 +4,6 @@ import VotingOption from "./VotingOption"
 
 function VotingOptions(props) {
     const options = props.options
-    const slideId = props.slideId
     const selectedOption = props.selectedOption
     const directSetVote = props.directSetVote
     const voteFunction = props.voteFunction
@@ -15,7 +14,6 @@ function VotingOptions(props) {
                 return <VotingOption
                     key={key}
                     option={option}
-                    slideId={slideId}
                     selected={option.destination === selectedOption}
                     directSetVote={directSetVote}
                     voteFunction={voteFunction}
