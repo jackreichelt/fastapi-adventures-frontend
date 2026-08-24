@@ -12,13 +12,14 @@ function PollBar(props) {
     const votesFraction = votes / totalVotes * 100
 
     const goToSlide = () => {
+        console.log('changing slide', option.destination)
         changeSlide(option.destination)
         navigate(`/slide/${option.destination}`)
     }
 
     return (
-        <div className="pollBar">
-            <div className="filledPoll" style={{ 'width': `${votesFraction}%` }} onClick={goToSlide}>
+        <div className="pollBar" onClick={goToSlide}>
+            <div className="filledPoll" style={{ 'width': `${votesFraction}%` }}>
                 <p>
                     {option.name} - {votes}
                 </p>

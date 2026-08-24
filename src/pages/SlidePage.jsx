@@ -1,6 +1,7 @@
+import { WebPubSubClient } from "@azure/web-pubsub-client"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { ReadyState } from 'react-use-websocket'
 
 import "./theme.css"
 
@@ -23,10 +24,7 @@ function SlidePage() {
     const { slide, slideLoading, slideError, pollOptions } = useGetSlide(slideId)
     const { votes, votesLoading, votesError, updateVotes } = useGetVotes(sessionId, slideId)
 
-    const socketUrl = `${import.meta.env.VITE_API_URL}/ws/v1/presenter`
-    const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl)
-    // TODO: If socket closes, re-connect
-    const [messages, setMessages] = useState([])
+    const [client, setClient] = useState()
 
     const [debug, setDebug] = useState(false)
 
@@ -35,12 +33,31 @@ function SlidePage() {
     }
 
     useEffect(() => {
-        if (lastMessage !== null) {
-            setMessages((prevMessages) => prevMessages.concat(lastMessage.data))
-            updateVotes(lastMessage.data)
-        }
+        const client = new WebPubSubClient({
+            getClientAccessUrl: async () => {
+                let value = await (await fetch(`${import.meta.env.VITE_API_URL}/api/v1/connections/negotiate?audience_id=presenter&mode=presenter`)).json()
+                return value.url
+            },
+        }, {
+            autoReconnect: false,
+        })
+
+        client.on("group-message", e => {
+            const chunks = e.message.data.split(" ")
+            console.log('message received', chunks)
+            if (chunks[0] === "Vote") {
+                updateVotes(e.message.data)
+            }
+        })
+
+        client.start().then(() => {
+            setClient(client)
+        }).catch(e => {
+            console.log('Error starting pubsub client', e)
+        })
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [lastMessage]) // TODO: Work out how to do this properly.
+    }, [])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'connecting',
@@ -48,17 +65,7 @@ function SlidePage() {
         [ReadyState.CLOSING]: 'closing',
         [ReadyState.CLOSED]: 'closed',
         [ReadyState.UNINSTANTIATED]: 'uninstantiated',
-    }[readyState]
-
-    const changeSlide = (slideId) => {
-        sendMessage(
-            {
-                action: "Presenter changed slide",
-                sessionId: sessionId,
-                slideId
-            }
-        )
-    }
+    }[0] // TODO: Make this work again for pubsub
 
     if (slideError || votesError) {
         return (<p>{slideError.message || votesError.message}</p>)
@@ -97,7 +104,7 @@ function SlidePage() {
             <ConnectionIndicator status={connectionStatus} onClick={toggleDebug} />
             {slideContents}
             {/* <DebugOutput display={debug} messages={messages} /> */}
-            {debug && (<div>
+            {/* {debug && (<div>
                 <p>Debug messages:</p>
                 <p>Session ID: {sessionId}</p>
                 <ul>
@@ -109,8 +116,21 @@ function SlidePage() {
                         )
                     })}
                 </ul>
-            </div>)}
-            <PollOptions options={pollOptions} votesTally={votes} changeSlide={changeSlide} />
+            </div>)} */}
+            <PollOptions
+                options={pollOptions}
+                votesTally={votes}
+                changeSlide={(slideId) => {
+                    client.sendEvent(
+                        "change-slide",
+                        JSON.stringify({
+                            slide_id: slideId,
+                            session_id: sessionId
+                        }),
+                        "text").catch(e => {
+                            console.log("Error sending message", e)
+                        })
+                }} />
         </div>
     )
 }
