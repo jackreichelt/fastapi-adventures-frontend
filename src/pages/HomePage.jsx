@@ -32,6 +32,7 @@ function HomePage() {
                     window.location.search = searchParams.toString()
                 })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
