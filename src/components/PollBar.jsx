@@ -9,7 +9,7 @@ function PollBar(props) {
     const votes = props.votes
     const totalVotes = props.totalVotes
     const changeSlide = props.changeSlide
-    const votesFraction = votes / totalVotes * 100
+    const votesFraction = totalVotes === 0 ? 0 : votes / totalVotes * 100
 
     const goToSlide = () => {
         console.log('changing slide', option.destination)
