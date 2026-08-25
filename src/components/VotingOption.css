@@ -19,7 +19,7 @@
     }
 
     &:active {
-        box-shadow: 2px 2px 5px var(--github-dark-grey);
+        box-shadow: 2px 2px 5px light-dark(var(--github-dark-grey), var(--near-black));
         transform: translateY(2px);
     }
 }

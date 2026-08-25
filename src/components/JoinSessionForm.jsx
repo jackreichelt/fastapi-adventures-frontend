@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import "./JoinSessionForm.css"
+
 import getJoinSession from "../api/get-join-session.js"
 
 function JoinSessionForm() {
@@ -28,19 +30,22 @@ function JoinSessionForm() {
     }
 
     return (
-        <form>
+        <form id="join-session-form">
+            <h1>Audience</h1>
             <div>
-                <label htmlFor="sessionId">Session ID:</label>
-                <input
-                    type="text"
-                    id="sessionId"
-                    placeholder="Enter session ID"
-                    onChange={handleChange}
-                />
+                <div className="input-div">
+                    <label htmlFor="sessionId">Session ID:</label>
+                    <input
+                        type="text"
+                        id="sessionId"
+                        placeholder="Enter session ID"
+                        onChange={handleChange}
+                    />
+                </div>
+                <button type="submit" onClick={handleSubmit}>
+                    Join Session
+                </button>
             </div>
-            <button type="submit" onClick={handleSubmit}>
-                Join Session
-            </button>
         </form>
     )
 }
