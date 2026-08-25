@@ -11,9 +11,9 @@ function HomePage() {
 
     return (
         <div id="">
-            <HostSessionForm />
-
             <JoinSessionForm />
+
+            <HostSessionForm />
         </div>
     )
 };
