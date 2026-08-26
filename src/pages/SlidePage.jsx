@@ -1,7 +1,7 @@
 import { WebPubSubClient } from "@azure/web-pubsub-client"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { ReadyState } from 'react-use-websocket'
+import { useNavigate, useParams } from "react-router-dom"
+import { ReadyState } from "react-use-websocket"
 
 import "./theme.css"
 
@@ -18,6 +18,7 @@ import ImageContent from "./ImageContent"
 import TextContent from "./TextContent"
 
 function SlidePage() {
+    const navigate = useNavigate()
     const { slideId } = useParams()
     const sessionId = window.localStorage.getItem("sessionId", null)
 
@@ -44,7 +45,6 @@ function SlidePage() {
 
         client.on("group-message", e => {
             const chunks = e.message.data.split(" ")
-            console.log('message received', chunks)
             if (chunks[0] === "Vote") {
                 updateVotes(e.message.data)
             }
@@ -53,18 +53,55 @@ function SlidePage() {
         client.start().then(() => {
             setClient(client)
         }).catch(e => {
-            console.log('Error starting pubsub client', e)
+            console.log("Error starting pubsub client", e)
         })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        const goToTopVotedSlide = () => {
+            let highestVotedSlideId = null
+            if (Object.keys(votes).length) {
+                highestVotedSlideId = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b)
+            }
+
+            if (pollOptions.length === 1) {
+                highestVotedSlideId = pollOptions[0].destination
+            }
+
+            if (highestVotedSlideId) {
+                console.log('Going to slide', highestVotedSlideId)
+                client.sendEvent(
+                    "change-slide",
+                    JSON.stringify({
+                        slide_id: highestVotedSlideId,
+                        session_id: sessionId
+                    }),
+                    "text").catch(e => {
+                        console.log("Error sending message", e)
+                    })
+
+                navigate(`/slide/${highestVotedSlideId}`)
+            }
+        }
+
+        const handleKeyUp = (e) => {
+            if (e.key === " " || e.key === "Enter") {
+                goToTopVotedSlide()
+            }
+            // TODO: Add override to wrap it up.
+        }
+
+        document.addEventListener("keyup", handleKeyUp)
+    }, [client, navigate, pollOptions, sessionId, votes])
+
     const connectionStatus = {
-        [ReadyState.CONNECTING]: 'connecting',
-        [ReadyState.OPEN]: 'open',
-        [ReadyState.CLOSING]: 'closing',
-        [ReadyState.CLOSED]: 'closed',
-        [ReadyState.UNINSTANTIATED]: 'uninstantiated',
+        [ReadyState.CONNECTING]: "connecting",
+        [ReadyState.OPEN]: "open",
+        [ReadyState.CLOSING]: "closing",
+        [ReadyState.CLOSED]: "closed",
+        [ReadyState.UNINSTANTIATED]: "uninstantiated",
     }[0] // TODO: Make this work again for pubsub
 
     if (slideError || votesError) {
@@ -77,7 +114,7 @@ function SlidePage() {
 
     let slideContents = null
     if (slide.contents.length === 0) {
-        if (slide.image === '') {
+        if (slide.image === "") {
             slideContents = (
                 <TitleContent slide={slide} />
             )
@@ -87,7 +124,7 @@ function SlidePage() {
             )
         }
     } else {
-        if (slide.image === '') {
+        if (slide.image === "") {
             slideContents = (
                 <TextContent slide={slide} />
             )
