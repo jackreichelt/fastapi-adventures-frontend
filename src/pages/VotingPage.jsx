@@ -22,6 +22,7 @@ function VotingPage() {
     const { vote, isLoading: isVoteLoading, error: voteError, directSetVote } = useGetVote(audienceId, slideId, sessionId)
 
     const [client, setClient] = useState()
+    const [fallbackMode, setFallbackMode] = useState(false)
 
     useEffect(() => {
         const client = new WebPubSubClient({
@@ -44,6 +45,7 @@ function VotingPage() {
             setClient(client)
         }).catch(e => {
             console.log('Error starting pubsub client', e)
+            setFallbackMode(true)
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -54,7 +56,9 @@ function VotingPage() {
         [ReadyState.CLOSING]: 'closing',
         [ReadyState.CLOSED]: 'closed',
         [ReadyState.UNINSTANTIATED]: 'uninstantiated',
-    }[0] // TODO: Make this work again for pubsub
+        false: 'open',
+        true: 'closed'
+    }[fallbackMode]
 
     if (isSlideLoading || isVoteLoading) {
         return (<p>loading...</p>)

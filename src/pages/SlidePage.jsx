@@ -30,6 +30,7 @@ function SlidePage() {
     const [secretPresses, setSecretPresses] = useState(0)
 
     const [debug, setDebug] = useState(false)
+    const [fallbackMode, setFallbackMode] = useState(false)
 
     const toggleDebug = () => {
         setDebug(!debug)
@@ -55,6 +56,7 @@ function SlidePage() {
         client.start().then(() => {
             setClient(client)
         }).catch(e => {
+            setFallbackMode(true)
             console.log("Error starting pubsub client", e)
         })
 
@@ -141,12 +143,14 @@ function SlidePage() {
     }, [client, navigate, pollOptions, quitPresses, secretPresses, sessionId, slideId, votes])
 
     const connectionStatus = {
-        [ReadyState.CONNECTING]: "connecting",
-        [ReadyState.OPEN]: "open",
-        [ReadyState.CLOSING]: "closing",
-        [ReadyState.CLOSED]: "closed",
-        [ReadyState.UNINSTANTIATED]: "uninstantiated",
-    }[0] // TODO: Make this work again for pubsub
+        [ReadyState.CONNECTING]: 'connecting',
+        [ReadyState.OPEN]: 'open',
+        [ReadyState.CLOSING]: 'closing',
+        [ReadyState.CLOSED]: 'closed',
+        [ReadyState.UNINSTANTIATED]: 'uninstantiated',
+        false: 'open',
+        true: 'closed'
+    }[fallbackMode]
 
     if (slideError || votesError) {
         return (<p>{slideError.message || votesError.message}</p>)
