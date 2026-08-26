@@ -3,6 +3,11 @@ import "./theme.css"
 import "./ImageContent.css"
 
 // TODO: Make this not awful
+import fastapi2 from "../assets/fastapi2.png"
+import goosebumps from "../assets/goosebumps.jpg"
+import openapi1 from "../assets/openapi1.png"
+import openapi2 from "../assets/openapi2.png"
+import openapi3 from "../assets/openapi3.png"
 import pydantic1 from "../assets/pydantic1.png"
 import pydantic2 from "../assets/pydantic2.png"
 
@@ -10,7 +15,12 @@ function ImageContent({ slide }) {
     const images = {
         placeholder: "https://placehold.co/300",
         pydantic1,
-        pydantic2
+        pydantic2,
+        fastapi2,
+        goosebumps,
+        openapi1,
+        openapi2,
+        openapi3,
     }
 
     return (

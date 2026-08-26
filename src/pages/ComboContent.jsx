@@ -3,14 +3,22 @@ import "./theme.css"
 import "./ComboContent.css"
 
 // TODO: Make this not awful
-import pydantic1 from "../assets/pydantic1.png"
-import pydantic2 from "../assets/pydantic2.png"
+import azure from "../assets/azure.png"
+import fastapi from "../assets/fastapi.svg"
+import goosebumps from "../assets/goosebumps.jpg"
+import meta from "../assets/meta6.png"
+import pydantic from "../assets/pydantic.svg"
+import qr from "../assets/qr.svg"
 
 function ComboContent({ slide }) {
     const images = {
         placeholder: "https://placehold.co/300",
-        pydantic1,
-        pydantic2
+        goosebumps,
+        fastapi,
+        pydantic,
+        meta,
+        qr,
+        azure,
     }
 
     return (
@@ -26,7 +34,9 @@ function ComboContent({ slide }) {
                         )
                     })}
                 </ul>
-                <img className="slideImage" src={images[slide.image]} alt={`Image for ${slide.title}`} />
+                <div className="imageContainerDiv">
+                    <img className="slideImage" src={images[slide.image]} alt={`Image for ${slide.title}`} />
+                </div>
             </div>
         </div>
     )
