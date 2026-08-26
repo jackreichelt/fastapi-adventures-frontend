@@ -26,6 +26,8 @@ function SlidePage() {
     const { votes, votesLoading, votesError, updateVotes } = useGetVotes(sessionId, slideId)
 
     const [client, setClient] = useState()
+    const [quitPresses, setQuitPresses] = useState(0)
+    const [secretPresses, setSecretPresses] = useState(0)
 
     const [debug, setDebug] = useState(false)
 
@@ -71,7 +73,6 @@ function SlidePage() {
             }
 
             if (highestVotedSlideId) {
-                console.log('Going to slide', highestVotedSlideId)
                 client.sendEvent(
                     "change-slide",
                     JSON.stringify({
@@ -89,12 +90,44 @@ function SlidePage() {
         const handleKeyUp = (e) => {
             if (e.key === " " || e.key === "Enter") {
                 goToTopVotedSlide()
+            } else if (e.key === "q") {
+                setQuitPresses(current => current + 1)
+                if (quitPresses === 2) {
+                    // Jump to end slide
+                    client.sendEvent(
+                        "change-slide",
+                        JSON.stringify({
+                            slide_id: 28,
+                            session_id: sessionId
+                        }),
+                        "text").catch(e => {
+                            console.log("Error sending message", e)
+                        })
+
+                    navigate("/slide/28")
+                }
+            } else if (e.key === "s") {
+                setSecretPresses(current => current + 1)
+                if (secretPresses === 2) {
+                    // Jump to secret slide
+                    client.sendEvent(
+                        "change-slide",
+                        JSON.stringify({
+                            slide_id: 23,
+                            session_id: sessionId
+                        }),
+                        "text").catch(e => {
+                            console.log("Error sending message", e)
+                        })
+
+                    navigate("/slide/23")
+                }
             }
             // TODO: Add override to wrap it up.
         }
 
         document.addEventListener("keyup", handleKeyUp)
-    }, [client, navigate, pollOptions, sessionId, votes])
+    }, [client, navigate, pollOptions, quitPresses, secretPresses, sessionId, votes])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: "connecting",
