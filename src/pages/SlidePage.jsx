@@ -91,8 +91,7 @@ function SlidePage() {
             if (e.key === " " || e.key === "Enter") {
                 goToTopVotedSlide()
             } else if (e.key === "q") {
-                setQuitPresses(current => current + 1)
-                if (quitPresses === 2) {
+                if (quitPresses >= 2) {
                     // Jump to end slide
                     client.sendEvent(
                         "change-slide",
@@ -106,9 +105,9 @@ function SlidePage() {
 
                     navigate("/slide/28")
                 }
+                setQuitPresses(current => current + 1)
             } else if (e.key === "s") {
-                setSecretPresses(current => current + 1)
-                if (secretPresses === 2) {
+                if (secretPresses >= 2) {
                     // Jump to secret slide
                     client.sendEvent(
                         "change-slide",
@@ -122,12 +121,24 @@ function SlidePage() {
 
                     navigate("/slide/23")
                 }
+                setSecretPresses(current => current + 1)
+            } else if (e.key === "a" && client) {
+                // Announce the current slide to catch the audience up
+                // TODO: Make this only send once
+                client.sendEvent(
+                    "change-slide",
+                    JSON.stringify({
+                        slide_id: slideId,
+                        session_id: sessionId
+                    }),
+                    "text").catch(e => {
+                        console.log("Error sending message", e)
+                    })
             }
-            // TODO: Add override to wrap it up.
         }
 
         document.addEventListener("keyup", handleKeyUp)
-    }, [client, navigate, pollOptions, quitPresses, secretPresses, sessionId, votes])
+    }, [client, navigate, pollOptions, quitPresses, secretPresses, sessionId, slideId, votes])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: "connecting",
