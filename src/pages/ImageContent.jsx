@@ -5,6 +5,7 @@ import "./ImageContent.css"
 // TODO: Make this not awful
 import fastapi2 from "../assets/fastapi2.png"
 import goosebumps from "../assets/goosebumps.jpg"
+import graph from "../assets/graph.svg"
 import openapi1 from "../assets/openapi1.png"
 import openapi2 from "../assets/openapi2.png"
 import openapi3 from "../assets/openapi3.png"
@@ -21,6 +22,7 @@ function ImageContent({ slide }) {
         openapi1,
         openapi2,
         openapi3,
+        graph,
     }
 
     return (
