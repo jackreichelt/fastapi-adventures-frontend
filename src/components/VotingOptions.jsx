@@ -8,6 +8,14 @@ function VotingOptions(props) {
     const directSetVote = props.directSetVote
     const voteFunction = props.voteFunction
 
+    if (options.length === 1) {
+        return (
+            <div>
+                No options from this slide.
+            </div>
+        )
+    }
+
     return (
         <div id="voting-options">
             {options.map((option, key) => {

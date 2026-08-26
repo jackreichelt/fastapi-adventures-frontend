@@ -8,6 +8,10 @@ function PollOptions(props) {
     const changeSlide = props.changeSlide
     const totalVotes = Object.values(props.votesTally).reduce((prev, current) => prev + current, 0)
 
+    if (options.length === 1) {
+        return
+    }
+
     return (
         <div id="pollOptions">
             {options.map((option, key) => {
