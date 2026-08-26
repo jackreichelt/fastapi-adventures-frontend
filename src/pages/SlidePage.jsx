@@ -188,20 +188,9 @@ function SlidePage() {
         <div className="slide">
             <ConnectionIndicator status={connectionStatus} onClick={toggleDebug} />
             {slideContents}
-            {/* <DebugOutput display={debug} messages={messages} /> */}
-            {/* {debug && (<div>
-                <p>Debug messages:</p>
+            {debug && (<div>
                 <p>Session ID: {sessionId}</p>
-                <ul>
-                    {messages && messages.map((message, key) => {
-                        return (
-                            <li key={key}>
-                                {message}
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>)} */}
+            </div>)}
             <PollOptions
                 options={pollOptions}
                 votesTally={votes}
