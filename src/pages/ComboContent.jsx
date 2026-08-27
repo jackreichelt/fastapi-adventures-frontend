@@ -4,7 +4,7 @@ import "./ComboContent.css"
 
 // TODO: Make this not awful
 import azure from "../assets/azure.png"
-import fastapi from "../assets/fastapi.svg"
+import fastapi1 from "../assets/fastapi.svg"
 import goosebumps from "../assets/goosebumps.jpg"
 import meta from "../assets/meta6.png"
 import pydantic from "../assets/pydantic.svg"
@@ -14,7 +14,7 @@ function ComboContent({ slide }) {
     const images = {
         placeholder: "https://placehold.co/300",
         goosebumps,
-        fastapi,
+        fastapi1,
         pydantic,
         meta,
         qr,

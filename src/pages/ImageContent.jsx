@@ -4,7 +4,7 @@ import "./ImageContent.css"
 
 // TODO: Make this not awful
 import fastapi2 from "../assets/fastapi2.png"
-import goosebumps from "../assets/goosebumps.jpg"
+import goosebumps from "../assets/goosebumps.png"
 import graph from "../assets/graph.svg"
 import openapi1 from "../assets/openapi1.png"
 import openapi2 from "../assets/openapi2.png"

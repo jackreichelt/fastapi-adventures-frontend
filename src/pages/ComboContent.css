@@ -32,7 +32,7 @@
     }
 
     .slideImage {
-        /* flex-grow: 1; */
+        flex-grow: 1;
         height: max-content;
         max-height: 60vh;
         /* box-shadow: 0px 0px 5px light-dark(var(--github-dark-grey), var(--near-black)); */
