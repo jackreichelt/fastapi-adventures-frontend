@@ -9,7 +9,7 @@ function PollOptions(props) {
     const totalVotes = Object.values(props.votesTally).reduce((prev, current) => prev + current, 0)
 
     if (options.length === 1) {
-        return
+        return <PollBar key={0} option={{ ...options[0], "name": "Next" }} votes={-1} totalVotes={-1} changeSlide={changeSlide} />
     }
 
     return (

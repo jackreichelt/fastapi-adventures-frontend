@@ -9,11 +9,23 @@ function PollBar(props) {
     const votes = props.votes
     const totalVotes = props.totalVotes
     const changeSlide = props.changeSlide
-    const votesFraction = totalVotes === 0 ? 0 : votes / totalVotes * 100
+    let votesFraction = totalVotes === 0 ? 0 : votes / totalVotes * 100
 
     const goToSlide = () => {
         changeSlide(option.destination)
         navigate(`/slide/${option.destination}`)
+    }
+
+    if (totalVotes === -1) {
+        return (
+            <div className="pollBar" onClick={goToSlide}>
+                <div className="filledPoll" style={{ 'width': '100%' }}>
+                    <p>
+                        {option.name}
+                    </p>
+                </div>
+            </div >
+        )
     }
 
     return (
