@@ -24,10 +24,9 @@ function SlidePage() {
 
     const { slide, slideLoading, slideError, pollOptions } = useGetSlide(slideId)
     const { votes, votesLoading, votesError, updateVotes } = useGetVotes(sessionId, slideId)
+    const [mostPopularVote, setMostPopularVote] = useState()
 
     const [client, setClient] = useState()
-    const [quitPresses, setQuitPresses] = useState(0)
-    const [secretPresses, setSecretPresses] = useState(0)
 
     const [debug, setDebug] = useState(false)
     const [fallbackMode, setFallbackMode] = useState(false)
@@ -35,6 +34,19 @@ function SlidePage() {
     const toggleDebug = () => {
         setDebug(!debug)
     }
+
+    useEffect(() => {
+        let highestVotedSlideId = null
+        if (Object.keys(votes).length) {
+            highestVotedSlideId = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b)
+        }
+
+        if (pollOptions.length === 1) {
+            highestVotedSlideId = pollOptions[0].destination
+        }
+
+        setMostPopularVote(highestVotedSlideId)
+    }, [pollOptions, votes])
 
     useEffect(() => {
         const client = new WebPubSubClient({
@@ -62,85 +74,6 @@ function SlidePage() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        const goToTopVotedSlide = () => {
-            let highestVotedSlideId = null
-            if (Object.keys(votes).length) {
-                highestVotedSlideId = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b)
-            }
-
-            if (pollOptions.length === 1) {
-                highestVotedSlideId = pollOptions[0].destination
-            }
-
-            if (highestVotedSlideId) {
-                client.sendEvent(
-                    "change-slide",
-                    JSON.stringify({
-                        slide_id: highestVotedSlideId,
-                        session_id: sessionId
-                    }),
-                    "text").catch(e => {
-                        console.log("Error sending message", e)
-                    })
-
-                navigate(`/slide/${highestVotedSlideId}`)
-            }
-        }
-
-        const handleKeyUp = (e) => {
-            if (e.key === " " || e.key === "Enter") {
-                goToTopVotedSlide()
-            } else if (e.key === "q") {
-                if (quitPresses >= 2) {
-                    // Jump to end slide
-                    client.sendEvent(
-                        "change-slide",
-                        JSON.stringify({
-                            slide_id: 28,
-                            session_id: sessionId
-                        }),
-                        "text").catch(e => {
-                            console.log("Error sending message", e)
-                        })
-
-                    navigate("/slide/28")
-                }
-                setQuitPresses(current => current + 1)
-            } else if (e.key === "s") {
-                if (secretPresses >= 2) {
-                    // Jump to secret slide
-                    client.sendEvent(
-                        "change-slide",
-                        JSON.stringify({
-                            slide_id: 23,
-                            session_id: sessionId
-                        }),
-                        "text").catch(e => {
-                            console.log("Error sending message", e)
-                        })
-
-                    navigate("/slide/23")
-                }
-                setSecretPresses(current => current + 1)
-            } else if (e.key === "a" && client) {
-                // Announce the current slide to catch the audience up
-                // TODO: Make this only send once
-                client.sendEvent(
-                    "change-slide",
-                    JSON.stringify({
-                        slide_id: slideId,
-                        session_id: sessionId
-                    }),
-                    "text").catch(e => {
-                        console.log("Error sending message", e)
-                    })
-            }
-        }
-
-        document.addEventListener("keyup", handleKeyUp)
-    }, [client, navigate, pollOptions, quitPresses, secretPresses, sessionId, slideId, votes])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'connecting',
@@ -185,7 +118,34 @@ function SlidePage() {
 
     // TODO: Add different components depending on the contents and image of the slide
     return (
-        <div className="slide">
+        <div
+            tabIndex="0"
+            className="slide"
+            onKeyUpCapture={e => {
+                let dest = null
+                if (e.key === " " || e.key === "Enter") {
+                    if (mostPopularVote) {
+                        dest = `/slide/${mostPopularVote}`
+                    }
+                } else if (e.key === 'q') {
+                    dest = '/slide/28'
+                } else if (e.key === 's') {
+                    dest = '/slide/23'
+                }
+                if (dest) {
+                    client.sendEvent(
+                        "change-slide",
+                        JSON.stringify({
+                            slide_id: slideId,
+                            session_id: sessionId
+                        }),
+                        "text").catch(e => {
+                            console.log("Error sending message", e)
+                        })
+                    navigate(dest)
+                }
+            }}
+        >
             <ConnectionIndicator status={connectionStatus} onClick={toggleDebug} />
             {slideContents}
             {debug && (<div>
