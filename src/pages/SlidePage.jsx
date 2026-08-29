@@ -123,20 +123,24 @@ function SlidePage() {
             className="slide"
             onKeyUpCapture={e => {
                 let dest = null
+                let destId = null
                 if (e.key === " " || e.key === "Enter") {
                     if (mostPopularVote) {
                         dest = `/slide/${mostPopularVote}`
+                        destId = mostPopularVote
                     }
                 } else if (e.key === 'q') {
                     dest = '/slide/28'
+                    destId = 28
                 } else if (e.key === 's') {
                     dest = '/slide/23'
+                    destId = 23
                 }
                 if (dest) {
                     client.sendEvent(
                         "change-slide",
                         JSON.stringify({
-                            slide_id: slideId,
+                            slide_id: destId,
                             session_id: sessionId
                         }),
                         "text").catch(e => {
