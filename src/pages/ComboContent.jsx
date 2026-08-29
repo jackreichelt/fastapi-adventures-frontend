@@ -7,6 +7,7 @@ import azure from "../assets/azure.png"
 import fastapi1 from "../assets/fastapi.svg"
 import goosebumps from "../assets/goosebumps.jpg"
 import meta from "../assets/meta6.png"
+import postqr from "../assets/postqr.svg"
 import pydantic from "../assets/pydantic.svg"
 import qr from "../assets/qr.svg"
 
@@ -19,6 +20,7 @@ function ComboContent({ slide }) {
         meta,
         qr,
         azure,
+        postqr
     }
 
     return (
