@@ -10,6 +10,7 @@ import meta from "../assets/meta6.png"
 import postqr from "../assets/postqr.svg"
 import pydantic from "../assets/pydantic.svg"
 import qr from "../assets/qr.svg"
+import qrcode from "../assets/qrcode.png"
 
 function ComboContent({ slide }) {
     const images = {
@@ -19,6 +20,7 @@ function ComboContent({ slide }) {
         pydantic,
         meta,
         qr,
+        qrcode,
         azure,
         postqr
     }
