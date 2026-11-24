@@ -4,13 +4,19 @@ import "./ComboContent.css"
 
 // TODO: Make this not awful
 import azure from "../assets/azure.png"
+import bored from "../assets/bored.jpg"
+import butwhy from "../assets/butwhy.jpg"
+import dnd from "../assets/dnd.png"
 import fastapi1 from "../assets/fastapi.svg"
+import finches from "../assets/finches.jpg"
 import goosebumps from "../assets/goosebumps.jpg"
 import meta from "../assets/meta6.png"
 import postqr from "../assets/postqr.svg"
 import pydantic from "../assets/pydantic.svg"
 import qr from "../assets/qr.svg"
 import qrcode from "../assets/qrcode.png"
+import sonic from "../assets/sonic.png"
+import timflannery from "../assets/timflannery.jpg"
 
 function ComboContent({ slide }) {
     const images = {
@@ -22,7 +28,13 @@ function ComboContent({ slide }) {
         qr,
         qrcode,
         azure,
-        postqr
+        postqr,
+        bored,
+        butwhy,
+        timflannery,
+        finches,
+        dnd,
+        sonic,
     }
 
     return (
