@@ -130,11 +130,14 @@ function SlidePage() {
                         destId = mostPopularVote
                     }
                 } else if (e.key === 'q') {
-                    dest = '/slide/28'
-                    destId = 28
+                    dest = '/slide/92'
+                    destId = 92
                 } else if (e.key === 's') {
-                    dest = '/slide/23'
+                    dest = '/slide/78'
                     destId = 23
+                } else if (e.key === 'p') {
+                    dest = '/slide/73'
+                    destId = 73
                 }
                 if (dest) {
                     client.sendEvent(
